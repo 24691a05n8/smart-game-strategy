@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AO* Search Algorithm | SmartGame AI</title>
+    <meta name="description" content="AO* algorithm visualization on AND-OR graphs with heuristic cost propagation.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link active" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <main class="page-main">
+        <div class="page-header">
+            <div class="page-badge purple">AO* ALGORITHM</div>
+            <h1 class="page-title">AO* <span class="gradient-text">Search</span> Algorithm</h1>
+            <p class="page-subtitle">Heuristic search on <strong>AND-OR graphs</strong>. AO* decomposes complex problems into sub-goals and finds the optimal solution graph through cost propagation.</p>
+        </div>
+
+        <div class="aostar-layout">
+            <!-- Graph Controls -->
+            <div class="controls-panel glass-card" id="aostar-controls">
+                <h3 class="panel-title">⚙ Problem Scenarios</h3>
+
+                <div class="control-group">
+                    <label class="control-label">Select Problem</label>
+                    <select class="control-select" id="problem-select" onchange="loadProblem(this.value)">
+                        <option value="travel">Travel Planning Problem</option>
+                        <option value="assembly">Robot Assembly Problem</option>
+                        <option value="game_strategy">Game Strategy Problem</option>
+                        <option value="medical">Medical Diagnosis Problem</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Problem Description</label>
+                    <div class="problem-desc glass-card" id="problem-desc">
+                        Select a problem scenario to see its description.
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="run-aostar-btn" onclick="runAOStar()">▶ Solve with AO*</button>
+                    <button class="btn btn-outline" id="step-aostar-btn" onclick="stepAOStar()">→ Step</button>
+                    <button class="btn btn-danger" id="reset-aostar-btn" onclick="resetAOStar()">↺ Reset</button>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend" id="aostar-legend">
+                    <h4 class="legend-title">Node Types</h4>
+                    <div class="legend-item"><span class="legend-color" style="background:#3b82f6"></span> OR Node (choose best)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#a855f7"></span> AND Node (solve all)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#10b981"></span> Solved / Terminal</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#facc15"></span> Optimal Path</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ef4444"></span> Start Node</div>
+                </div>
+
+                <!-- Results -->
+                <div class="aostar-results" id="aostar-results">
+                    <div class="result-item">
+                        <span class="result-label">Final Cost</span>
+                        <span class="result-value" id="ao-final-cost">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Steps Taken</span>
+                        <span class="result-value" id="ao-steps">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Solved Nodes</span>
+                        <span class="result-value" id="ao-solved">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Execution Time</span>
+                        <span class="result-value" id="ao-time">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graph Visualization -->
+            <div class="graph-area">
+                <div class="graph-container glass-card" id="ao-graph-container">
+                    <canvas id="ao-canvas" width="700" height="500"></canvas>
+                </div>
+            </div>
+
+            <!-- Steps & Explanation -->
+            <div class="steps-panel glass-card" id="aostar-steps-panel">
+                <h3 class="panel-title">📋 Decision Steps</h3>
+                <div class="ao-explanation" id="ao-explanation">
+                    <div class="explanation-box">
+                        <h4>How AO* Works:</h4>
+                        <p><strong>AND nodes</strong> require ALL sub-goals to be achieved. Cost = sum of children costs.</p>
+                        <p><strong>OR nodes</strong> need ONE sub-goal to be achieved. Cost = min of children costs.</p>
+                        <p>AO* propagates costs bottom-up and selects the optimal solution graph.</p>
+                    </div>
+                </div>
+                <div class="steps-list" id="ao-steps-list">
+                    <p class="steps-placeholder">Run AO* to see step-by-step decisions...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/aostar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

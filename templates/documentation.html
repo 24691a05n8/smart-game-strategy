@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Documentation | SmartGame AI</title>
+    <meta name="description" content="Complete academic documentation for the Smart Game Strategy and Decision-Making System using A* and AO* Algorithms.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link active" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <main class="page-main docs-main">
+        <div class="page-header">
+            <div class="page-badge orange">DOCUMENTATION</div>
+            <h1 class="page-title">Project <span class="gradient-text">Documentation</span></h1>
+            <p class="page-subtitle">Complete academic report for B.Tech CSE Artificial Intelligence</p>
+        </div>
+
+        <div class="docs-layout">
+            <!-- TOC Sidebar -->
+            <nav class="docs-toc glass-card" id="docs-toc">
+                <h3 class="toc-title">📑 Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#abstract" class="toc-link">1. Abstract</a></li>
+                    <li><a href="#introduction" class="toc-link">2. Introduction</a></li>
+                    <li><a href="#problem-statement" class="toc-link">3. Problem Statement</a></li>
+                    <li><a href="#objectives" class="toc-link">4. Objectives</a></li>
+                    <li><a href="#existing-system" class="toc-link">5. Existing System</a></li>
+                    <li><a href="#proposed-system" class="toc-link">6. Proposed System</a></li>
+                    <li><a href="#methodology" class="toc-link">7. Methodology</a></li>
+                    <li><a href="#algorithms" class="toc-link">8. Algorithms</a></li>
+                    <li><a href="#applications" class="toc-link">9. Applications</a></li>
+                    <li><a href="#advantages" class="toc-link">10. Advantages</a></li>
+                    <li><a href="#future-scope" class="toc-link">11. Future Scope</a></li>
+                    <li><a href="#conclusion" class="toc-link">12. Conclusion</a></li>
+                </ul>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="docs-content" id="docs-content">
+
+                <!-- Abstract -->
+                <section class="doc-section glass-card" id="abstract">
+                    <div class="doc-section-header">
+                        <span class="doc-num">01</span>
+                        <h2>Abstract</h2>
+                    </div>
+                    <p>This project presents a <strong>Smart Game Strategy and Decision-Making System</strong> developed as part of the B.Tech Computer Science and Engineering — Artificial Intelligence curriculum. The system implements two pivotal AI heuristic search algorithms: <strong>A* (A-Star)</strong> and <strong>AO* (AO-Star)</strong>, demonstrating their practical applications in game environments and decision-making scenarios.</p>
+                    <p>The A* algorithm, governed by the evaluation function <code>f(n) = g(n) + h(n)</code>, is implemented as an interactive grid-based pathfinding system where users can define start/end positions, add obstacles, and observe the optimal path being computed in real-time. The AO* algorithm is realized through an AND-OR graph visualization that models decomposable problems and computes optimal solution graphs through heuristic cost propagation.</p>
+                    <p>Additionally, the system features an interactive Tic-Tac-Toe game where an AI opponent uses the <strong>Minimax algorithm with Alpha-Beta Pruning</strong> to make optimal decisions, demonstrating how game-theoretic algorithms connect to the broader A* and AO* framework. The system is built using Python 3 with Flask for the backend, and HTML5, CSS3, and JavaScript for the frontend, providing a fully interactive, visually rich educational platform.</p>
+                </section>
+
+                <!-- Introduction -->
+                <section class="doc-section glass-card" id="introduction">
+                    <div class="doc-section-header">
+                        <span class="doc-num">02</span>
+                        <h2>Introduction</h2>
+                    </div>
+                    <p>Artificial Intelligence (AI) has revolutionized the way computers approach problem-solving, particularly in domains requiring search, planning, and decision-making under uncertainty. Among the most fundamental and widely applied AI techniques are <strong>heuristic search algorithms</strong>, which guide the search process using domain-specific knowledge to find solutions efficiently.</p>
+                    <p>Two landmark algorithms in this domain are:</p>
+                    <ul class="doc-list">
+                        <li><strong>A* Algorithm (1968):</strong> Introduced by Peter Hart, Nils Nilsson, and Bertram Raphael, A* combines the benefits of Dijkstra's algorithm (completeness and optimality) with greedy best-first search (efficiency) using an admissible heuristic function.</li>
+                        <li><strong>AO* Algorithm (1980):</strong> Developed by Nils Nilsson, AO* extends the search paradigm to AND-OR graphs, enabling the solution of problems that can be decomposed into sub-problems (AND nodes) or allow alternative solutions (OR nodes).</li>
+                    </ul>
+                    <p>This project explores both algorithms through interactive visualizations, making their operation transparent and educational. Games provide an ideal testbed for AI algorithms because they have well-defined rules, clear objectives, and measurable outcomes. The Tic-Tac-Toe game arena demonstrates the Minimax algorithm with Alpha-Beta Pruning, which is deeply connected to the AO* framework for game tree search.</p>
+                </section>
+
+                <!-- Problem Statement -->
+                <section class="doc-section glass-card" id="problem-statement">
+                    <div class="doc-section-header">
+                        <span class="doc-num">03</span>
+                        <h2>Problem Statement</h2>
+                    </div>
+                    <p>In many real-world applications — from autonomous navigation and robot planning to game strategy and medical decision support — intelligent systems must efficiently search through vast solution spaces to find optimal or near-optimal solutions. The challenge lies in:</p>
+                    <ul class="doc-list">
+                        <li>Navigating large search spaces without exhaustively exploring every possibility (exponential time complexity).</li>
+                        <li>Handling problems that decompose into mandatory sub-goals (AND conditions) and alternative approaches (OR conditions).</li>
+                        <li>Making real-time decisions in game environments where the opponent is also trying to optimize their strategy.</li>
+                        <li>Providing transparent, explainable AI that allows users to understand and trust the decision-making process.</li>
+                    </ul>
+                    <p>This project addresses these challenges by implementing A* for shortest-path problems, AO* for decomposable decision problems, and Minimax with Alpha-Beta Pruning for adversarial game play — all within a unified, interactive educational platform.</p>
+                </section>
+
+                <!-- Objectives -->
+                <section class="doc-section glass-card" id="objectives">
+                    <div class="doc-section-header">
+                        <span class="doc-num">04</span>
+                        <h2>Objectives</h2>
+                    </div>
+                    <div class="objectives-grid">
+                        <div class="obj-card" id="obj1">
+                            <div class="obj-num">01</div>
+                            <h4>Implement A* Algorithm</h4>
+                            <p>Develop a complete, functional A* pathfinding algorithm with interactive grid visualization, obstacle placement, and real-time path animation.</p>
+                        </div>
+                        <div class="obj-card" id="obj2">
+                            <div class="obj-num">02</div>
+                            <h4>Implement AO* Algorithm</h4>
+                            <p>Build an AO* solver for AND-OR graphs demonstrating cost propagation, node type differentiation, and optimal solution graph extraction.</p>
+                        </div>
+                        <div class="obj-card" id="obj3">
+                            <div class="obj-num">03</div>
+                            <h4>Game AI Development</h4>
+                            <p>Create an intelligent Tic-Tac-Toe AI using Minimax with Alpha-Beta Pruning that demonstrates adversarial game-tree search.</p>
+                        </div>
+                        <div class="obj-card" id="obj4">
+                            <div class="obj-num">04</div>
+                            <h4>Interactive Visualization</h4>
+                            <p>Develop rich, real-time visual representations of algorithm execution including step-by-step breakdowns and performance metrics.</p>
+                        </div>
+                        <div class="obj-card" id="obj5">
+                            <div class="obj-num">05</div>
+                            <h4>Algorithm Analysis</h4>
+                            <p>Provide comprehensive comparison of A* vs AO* covering time/space complexity, use cases, heuristics, and performance characteristics.</p>
+                        </div>
+                        <div class="obj-card" id="obj6">
+                            <div class="obj-num">06</div>
+                            <h4>Educational Platform</h4>
+                            <p>Build a professional web application that serves as an educational tool for understanding AI search algorithms.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Existing System -->
+                <section class="doc-section glass-card" id="existing-system">
+                    <div class="doc-section-header">
+                        <span class="doc-num">05</span>
+                        <h2>Existing System</h2>
+                    </div>
+                    <p>Current approaches to visualizing and teaching AI search algorithms have several limitations:</p>
+                    <ul class="doc-list">
+                        <li><strong>Static Textbook Presentations:</strong> Most existing educational material presents these algorithms through static diagrams and pseudocode, which fails to convey the dynamic nature of the search process.</li>
+                        <li><strong>Isolated Implementations:</strong> Available tools typically demonstrate either A* or game-tree algorithms, but rarely integrate both into a unified platform that shows their conceptual connections.</li>
+                        <li><strong>Limited Interactivity:</strong> Existing visualizers often lack real customization — users cannot define their own problems, adjust parameters, or see step-by-step execution with explanations.</li>
+                        <li><strong>AO* Neglect:</strong> While A* has several visualization tools available, AO* for AND-OR graphs is rarely demonstrated interactively, leaving students without intuition for this important algorithm.</li>
+                        <li><strong>Poor User Experience:</strong> Many existing tools have outdated interfaces that are not engaging for modern learners.</li>
+                    </ul>
+                    <div class="drawbacks-box">
+                        <h4>Drawbacks of Existing Systems</h4>
+                        <div class="drawback-item"><span class="drawback-x">✗</span> No unified A* + AO* + Game AI platform</div>
+                        <div class="drawback-item"><span class="drawback-x">✗</span> Limited interactivity and customization</div>
+                        <div class="drawback-item"><span class="drawback-x">✗</span> Outdated, non-responsive user interfaces</div>
+                        <div class="drawback-item"><span class="drawback-x">✗</span> No real-time performance metrics</div>
+                        <div class="drawback-item"><span class="drawback-x">✗</span> Minimal step-by-step explanations</div>
+                    </div>
+                </section>
+
+                <!-- Proposed System -->
+                <section class="doc-section glass-card" id="proposed-system">
+                    <div class="doc-section-header">
+                        <span class="doc-num">06</span>
+                        <h2>Proposed System</h2>
+                    </div>
+                    <p>The proposed Smart Game Strategy System addresses all limitations of existing approaches through a comprehensive, interactive web application:</p>
+                    <div class="proposed-features">
+                        <div class="pf-item" id="pf1">
+                            <span class="pf-icon">⬡</span>
+                            <div>
+                                <h4>Unified AI Platform</h4>
+                                <p>A single web application integrating A*, AO*, and Minimax algorithms with shared visual design and conceptual connections between modules.</p>
+                            </div>
+                        </div>
+                        <div class="pf-item" id="pf2">
+                            <span class="pf-icon">🎯</span>
+                            <div>
+                                <h4>Real-Time Interactive Visualization</h4>
+                                <p>Live animation of A* pathfinding with node-by-node exploration, heuristic value display, and optimal path reconstruction.</p>
+                            </div>
+                        </div>
+                        <div class="pf-item" id="pf3">
+                            <span class="pf-icon">◈</span>
+                            <div>
+                                <h4>AND-OR Graph Explorer</h4>
+                                <p>Interactive AO* visualization with multiple problem scenarios, step-by-step cost propagation, and optimal solution graph highlighting.</p>
+                            </div>
+                        </div>
+                        <div class="pf-item" id="pf4">
+                            <span class="pf-icon">♟</span>
+                            <div>
+                                <h4>Intelligent Game Arena</h4>
+                                <p>Playable Tic-Tac-Toe with adjustable AI difficulty, move analysis, and alpha-beta pruning visualization.</p>
+                            </div>
+                        </div>
+                        <div class="pf-item" id="pf5">
+                            <span class="pf-icon">📊</span>
+                            <div>
+                                <h4>Performance Metrics</h4>
+                                <p>Real-time display of execution time, path cost, nodes explored, and other performance indicators for educational analysis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Methodology -->
+                <section class="doc-section glass-card" id="methodology">
+                    <div class="doc-section-header">
+                        <span class="doc-num">07</span>
+                        <h2>Methodology</h2>
+                    </div>
+                    <h3>System Architecture</h3>
+                    <p>The system follows a <strong>client-server architecture</strong> with Flask serving as the backend and vanilla JavaScript handling frontend interactions:</p>
+                    <div class="arch-diagram" id="arch-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-box client">Frontend (HTML5 + CSS3 + JS)</div>
+                        </div>
+                        <div class="arch-arrows">↕ REST API (JSON)</div>
+                        <div class="arch-layer">
+                            <div class="arch-box server">Flask Server (Python 3)</div>
+                        </div>
+                        <div class="arch-arrows">↕</div>
+                        <div class="arch-layer">
+                            <div class="arch-box algo">Algorithm Modules (A*, AO*, Minimax)</div>
+                        </div>
+                    </div>
+
+                    <h3>Development Methodology</h3>
+                    <ul class="doc-list">
+                        <li><strong>Algorithm Implementation:</strong> Pure Python implementations of A*, AO*, and Minimax without external AI libraries.</li>
+                        <li><strong>REST API Design:</strong> Flask endpoints receive JSON requests and return algorithm results as structured JSON responses.</li>
+                        <li><strong>Frontend Visualization:</strong> HTML5 Canvas and DOM manipulation for real-time algorithm visualization.</li>
+                        <li><strong>Modular Code Structure:</strong> Separate modules for each algorithm, utility functions, and UI components.</li>
+                    </ul>
+                </section>
+
+                <!-- Algorithms -->
+                <section class="doc-section glass-card" id="algorithms">
+                    <div class="doc-section-header">
+                        <span class="doc-num">08</span>
+                        <h2>Algorithms</h2>
+                    </div>
+
+                    <div class="algo-doc-section" id="astar-doc">
+                        <h3>8.1 A* Search Algorithm</h3>
+                        <p>A* is an informed search algorithm that finds the least-cost path from a start node to a goal node. It combines actual cost with heuristic estimation:</p>
+                        <div class="formula-big">f(n) = g(n) + h(n)</div>
+                        <div class="pseudocode">
+                            <div class="pseudo-title">A* Pseudocode</div>
+                            <pre>
+OPEN = {start}
+CLOSED = {}
+g[start] = 0
+f[start] = h(start, goal)
+
+WHILE OPEN is not empty:
+    current = node in OPEN with min f value
+    IF current == goal:
+        RETURN reconstruct_path(current)
+    
+    REMOVE current from OPEN
+    ADD current to CLOSED
+    
+    FOR each neighbor of current:
+        IF neighbor in CLOSED: continue
+        tentative_g = g[current] + cost(current, neighbor)
+        
+        IF neighbor not in OPEN:
+            ADD neighbor to OPEN
+        ELIF tentative_g >= g[neighbor]: continue
+        
+        came_from[neighbor] = current
+        g[neighbor] = tentative_g
+        f[neighbor] = g[neighbor] + h(neighbor, goal)
+
+RETURN failure (no path exists)
+                            </pre>
+                        </div>
+                    </div>
+
+                    <div class="algo-doc-section" id="aostar-doc">
+                        <h3>8.2 AO* Search Algorithm</h3>
+                        <p>AO* searches AND-OR graphs where some nodes require ALL sub-goals (AND) and others need just ONE sub-goal (OR):</p>
+                        <div class="pseudocode">
+                            <div class="pseudo-title">AO* Pseudocode</div>
+                            <pre>
+FUNCTION AO_STAR(node):
+    IF node is terminal:
+        RETURN h(node)   // Leaf cost
+    
+    best_cost = ∞
+    FOR each child_group of node:
+        group_cost = edge_cost
+        
+        IF child_group is AND:
+            // Must solve ALL children
+            FOR each child in group:
+                group_cost += AO_STAR(child)
+        ELSE (OR):
+            // Choose BEST child
+            group_cost += min(AO_STAR(c) for c in group)
+        
+        IF group_cost < best_cost:
+            best_cost = group_cost
+            best_group = child_group
+    
+    node.cost = best_cost
+    node.solved = TRUE
+    RETURN best_cost
+                            </pre>
+                        </div>
+                    </div>
+
+                    <div class="algo-doc-section" id="minimax-doc">
+                        <h3>8.3 Minimax with Alpha-Beta Pruning</h3>
+                        <p>Minimax is a decision algorithm for two-player zero-sum games. Alpha-Beta Pruning eliminates branches that cannot affect the final decision:</p>
+                        <div class="pseudocode">
+                            <div class="pseudo-title">Minimax with Alpha-Beta Pseudocode</div>
+                            <pre>
+FUNCTION MINIMAX(state, depth, is_max, α, β):
+    IF terminal(state) or depth == 0:
+        RETURN evaluate(state)
+    
+    IF is_max:  // AI's turn (maximize)
+        best = -∞
+        FOR each move in moves(state):
+            val = MINIMAX(apply(move), depth-1, FALSE, α, β)
+            best = max(best, val)
+            α = max(α, best)
+            IF β ≤ α: BREAK  // Beta cutoff (prune)
+        RETURN best
+    
+    ELSE:       // Human's turn (minimize)
+        best = +∞
+        FOR each move in moves(state):
+            val = MINIMAX(apply(move), depth-1, TRUE, α, β)
+            best = min(best, val)
+            β = min(β, best)
+            IF β ≤ α: BREAK  // Alpha cutoff (prune)
+        RETURN best
+                            </pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Applications -->
+                <section class="doc-section glass-card" id="applications">
+                    <div class="doc-section-header">
+                        <span class="doc-num">09</span>
+                        <h2>Applications</h2>
+                    </div>
+                    <div class="apps-grid">
+                        <div class="app-card" id="app1">
+                            <div class="app-icon">🗺</div>
+                            <h4>GPS Navigation</h4>
+                            <p>A* is the backbone of GPS navigation systems, finding shortest routes in road networks where h(n) is the straight-line distance to the destination.</p>
+                        </div>
+                        <div class="app-card" id="app2">
+                            <div class="app-icon">🤖</div>
+                            <h4>Robotics</h4>
+                            <p>AO* is used in robot motion planning for assembly tasks where multiple sub-tasks (AND) must be completed in sequence to achieve the overall goal.</p>
+                        </div>
+                        <div class="app-card" id="app3">
+                            <div class="app-icon">🎮</div>
+                            <h4>Video Games</h4>
+                            <p>A* powers NPC pathfinding in games. AO* and Minimax handle strategic decision trees in board games, chess engines, and strategy games.</p>
+                        </div>
+                        <div class="app-card" id="app4">
+                            <div class="app-icon">🏥</div>
+                            <h4>Medical Diagnosis</h4>
+                            <p>AO* models diagnostic decision trees where combinations of symptoms (AND) or alternative explanations (OR) lead to diagnoses.</p>
+                        </div>
+                        <div class="app-card" id="app5">
+                            <div class="app-icon">🔗</div>
+                            <h4>Network Routing</h4>
+                            <p>A* finds optimal data packet routes in computer networks, balancing actual distance traveled with estimated remaining path.</p>
+                        </div>
+                        <div class="app-card" id="app6">
+                            <div class="app-icon">✈</div>
+                            <h4>Flight Planning</h4>
+                            <p>A* computes optimal flight paths considering fuel cost, wind conditions, and air traffic, balancing multiple cost factors simultaneously.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Advantages -->
+                <section class="doc-section glass-card" id="advantages">
+                    <div class="doc-section-header">
+                        <span class="doc-num">10</span>
+                        <h2>Advantages</h2>
+                    </div>
+                    <div class="adv-cols">
+                        <div>
+                            <h3>A* Algorithm</h3>
+                            <ul class="adv-list">
+                                <li><span class="adv-check">✓</span> Guaranteed to find the optimal (lowest cost) path when heuristic is admissible.</li>
+                                <li><span class="adv-check">✓</span> Complete — will always find a solution if one exists.</li>
+                                <li><span class="adv-check">✓</span> Flexible heuristic function can be tailored to the domain.</li>
+                                <li><span class="adv-check">✓</span> Significantly faster than uninformed search like BFS/DFS in practice.</li>
+                                <li><span class="adv-check">✓</span> Well-studied, with extensive optimization techniques available.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>AO* Algorithm</h3>
+                            <ul class="adv-list">
+                                <li><span class="adv-check">✓</span> Handles decomposable problems that cannot be solved by standard path search.</li>
+                                <li><span class="adv-check">✓</span> Natural representation for hierarchical planning problems.</li>
+                                <li><span class="adv-check">✓</span> Extracts an optimal solution graph (not just a path).</li>
+                                <li><span class="adv-check">✓</span> Efficiently models both mandatory sub-goals (AND) and alternatives (OR).</li>
+                                <li><span class="adv-check">✓</span> Foundation for modern game tree algorithms and theorem provers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Future Scope -->
+                <section class="doc-section glass-card" id="future-scope">
+                    <div class="doc-section-header">
+                        <span class="doc-num">11</span>
+                        <h2>Future Scope</h2>
+                    </div>
+                    <ul class="doc-list future-list">
+                        <li><strong>Weighted A*:</strong> Implement weighted heuristics (w·h(n)) to trade optimality for speed in time-critical applications.</li>
+                        <li><strong>D* Lite Algorithm:</strong> Extend A* to dynamic environments where obstacles can change during navigation (used in autonomous vehicles).</li>
+                        <li><strong>Monte Carlo Tree Search (MCTS):</strong> Integrate MCTS for probabilistic game tree search, used in modern game-playing AI like AlphaGo.</li>
+                        <li><strong>Bidirectional A*:</strong> Implement search from both start and goal simultaneously to significantly reduce search space.</li>
+                        <li><strong>Multi-Agent Planning:</strong> Extend AO* to coordinate multiple AI agents solving sub-problems simultaneously.</li>
+                        <li><strong>Deep Learning Heuristics:</strong> Use neural networks to learn optimal heuristic functions from training data, creating Learned Heuristic A*.</li>
+                        <li><strong>3D Pathfinding:</strong> Extend the A* grid to 3D space for drone navigation and volumetric game environments.</li>
+                        <li><strong>Natural Language Interface:</strong> Allow users to describe problems in natural language, which are then converted to AND-OR graphs for AO* solving.</li>
+                    </ul>
+                </section>
+
+                <!-- Conclusion -->
+                <section class="doc-section glass-card" id="conclusion">
+                    <div class="doc-section-header">
+                        <span class="doc-num">12</span>
+                        <h2>Conclusion</h2>
+                    </div>
+                    <p>This project successfully demonstrates the implementation and visualization of two fundamental AI heuristic search algorithms — <strong>A*</strong> and <strong>AO*</strong> — within an interactive educational gaming platform. The system achieves all stated objectives:</p>
+                    <ul class="doc-list">
+                        <li>A complete, functional A* implementation with real-time grid visualization, multiple heuristics, and performance metrics.</li>
+                        <li>A fully operational AO* solver with AND-OR graph visualization across multiple problem domains.</li>
+                        <li>An intelligent Tic-Tac-Toe game powered by Minimax with Alpha-Beta Pruning, demonstrating adversarial AI decision-making.</li>
+                        <li>A comprehensive comparison module analyzing both algorithms' properties, applications, and complexities.</li>
+                        <li>A professional, interactive web application with premium UI/UX design suitable for academic presentation.</li>
+                    </ul>
+                    <p>Through this project, we have demonstrated that AI search algorithms are not abstract concepts but practical tools with real-world applications in navigation, gaming, robotics, and decision support systems. The connection between A* (path search), AO* (decomposable problem solving), and Minimax (adversarial game play) shows the unified nature of informed search in artificial intelligence.</p>
+                    <p>The system serves as both an educational tool and a foundation for more advanced AI research, providing clear visualizations and explanations that make these algorithms accessible to students, researchers, and practitioners alike.</p>
+                    <div class="conclusion-quote">
+                        "The art and science of asking questions is the source of all knowledge." — Thomas Berger
+                    </div>
+                </section>
+
+            </div><!-- end docs-content -->
+        </div><!-- end docs-layout -->
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // TOC active highlighting
+        const sections = document.querySelectorAll('.doc-section');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>

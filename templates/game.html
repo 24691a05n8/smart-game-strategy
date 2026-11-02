@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Arena - Tic-Tac-Toe AI | SmartGame AI</title>
+    <meta name="description" content="Play Tic-Tac-Toe against an unbeatable AI using Minimax with Alpha-Beta Pruning.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link active" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <main class="page-main">
+        <div class="page-header">
+            <div class="page-badge cyan">GAME ARENA</div>
+            <h1 class="page-title">AI <span class="gradient-text">Game Arena</span></h1>
+            <p class="page-subtitle">Challenge an AI powered by <strong>Minimax + Alpha-Beta Pruning</strong>. The AI evaluates every possible game state to make the optimal move.</p>
+        </div>
+
+        <div class="game-layout">
+            <!-- Game Settings -->
+            <div class="controls-panel glass-card" id="game-controls">
+                <h3 class="panel-title">⚙ Game Settings</h3>
+
+                <div class="control-group">
+                    <label class="control-label">Difficulty</label>
+                    <div class="difficulty-group" id="difficulty-group">
+                        <button class="diff-btn" id="diff-easy" onclick="setDifficulty('easy')">Easy</button>
+                        <button class="diff-btn" id="diff-medium" onclick="setDifficulty('medium')">Medium</button>
+                        <button class="diff-btn active" id="diff-hard" onclick="setDifficulty('hard')">Hard</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Play As</label>
+                    <div class="play-as-group" id="play-as-group">
+                        <button class="play-btn active" id="play-x" onclick="setPlayerSymbol('X')">✕ Play as X (First)</button>
+                        <button class="play-btn" id="play-o" onclick="setPlayerSymbol('O')">○ Play as O (Second)</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="restart-btn" onclick="restartGame()" style="width:100%">↺ New Game</button>
+
+                <!-- Score Board -->
+                <div class="scoreboard" id="scoreboard">
+                    <h4 class="panel-title">🏆 Score Board</h4>
+                    <div class="score-row">
+                        <div class="score-item">
+                            <span class="score-symbol human">✕</span>
+                            <span class="score-label">You</span>
+                            <span class="score-val" id="human-score">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Draws</span>
+                            <span class="score-val" id="draw-score">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-symbol ai">○</span>
+                            <span class="score-label">AI</span>
+                            <span class="score-val" id="ai-score">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Algorithm Info -->
+                <div class="algo-info-box" id="algo-info-box">
+                    <h4>🧠 AI Algorithm</h4>
+                    <div class="algo-detail">
+                        <span class="detail-label">Algorithm</span>
+                        <span class="detail-val">Minimax + Alpha-Beta</span>
+                    </div>
+                    <div class="algo-detail">
+                        <span class="detail-label">Max Depth</span>
+                        <span class="detail-val" id="ai-depth">9</span>
+                    </div>
+                    <div class="algo-detail">
+                        <span class="detail-label">States Pruned</span>
+                        <span class="detail-val" id="ai-pruned">—</span>
+                    </div>
+                    <div class="algo-detail">
+                        <span class="detail-label">Best Score</span>
+                        <span class="detail-val" id="ai-best-score">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Board -->
+            <div class="game-center">
+                <!-- Status -->
+                <div class="game-status glass-card" id="game-status">
+                    <div class="status-indicator" id="status-indicator"></div>
+                    <span id="status-text">Your turn! Click a cell to play.</span>
+                </div>
+
+                <!-- Tic-Tac-Toe Board -->
+                <div class="tictactoe-board glass-card" id="tictactoe-board">
+                    <div class="board-grid" id="board-grid">
+                        <div class="cell" id="cell-0" onclick="humanMove(0)"></div>
+                        <div class="cell" id="cell-1" onclick="humanMove(1)"></div>
+                        <div class="cell" id="cell-2" onclick="humanMove(2)"></div>
+                        <div class="cell" id="cell-3" onclick="humanMove(3)"></div>
+                        <div class="cell" id="cell-4" onclick="humanMove(4)"></div>
+                        <div class="cell" id="cell-5" onclick="humanMove(5)"></div>
+                        <div class="cell" id="cell-6" onclick="humanMove(6)"></div>
+                        <div class="cell" id="cell-7" onclick="humanMove(7)"></div>
+                        <div class="cell" id="cell-8" onclick="humanMove(8)"></div>
+                    </div>
+                </div>
+
+                <!-- Win Overlay -->
+                <div class="win-overlay" id="win-overlay" style="display:none">
+                    <div class="win-content glass-card">
+                        <div class="win-icon" id="win-icon">🏆</div>
+                        <h2 class="win-title" id="win-title">Game Over!</h2>
+                        <p class="win-message" id="win-message"></p>
+                        <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Thinking Panel -->
+            <div class="steps-panel glass-card" id="ai-panel">
+                <h3 class="panel-title">🤖 AI Thinking</h3>
+                <div class="ai-thinking-box" id="ai-thinking-box">
+                    <p class="steps-placeholder">Make a move to see AI decision analysis...</p>
+                </div>
+
+                <h3 class="panel-title" style="margin-top:1rem">📈 Move Analysis</h3>
+                <div class="move-analysis" id="move-analysis">
+                    <p class="steps-placeholder">Position scores will appear here...</p>
+                </div>
+
+                <div class="algo-explain glass-card" style="margin-top:1rem">
+                    <h4>Alpha-Beta Pruning</h4>
+                    <p>α (alpha): Best value for MAX player (AI)</p>
+                    <p>β (beta): Best value for MIN player (Human)</p>
+                    <p>When β ≤ α, prune the branch — it won't be chosen.</p>
+                    <div class="pruning-visual" id="pruning-visual">
+                        <div class="pval">α = <span id="alpha-val">-∞</span></div>
+                        <div class="pval">β = <span id="beta-val">+∞</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

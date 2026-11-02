@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Game Strategy System | AI Dashboard</title>
+    <meta name="description" content="B.Tech CSE AI Project - Smart Game Strategy and Decision-Making System using A* and AO* Algorithms">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div>
+        <div class="particle" id="p2"></div>
+        <div class="particle" id="p3"></div>
+        <div class="particle" id="p4"></div>
+        <div class="particle" id="p5"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link active" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                B.Tech CSE · Artificial Intelligence Project
+            </div>
+            <h1 class="hero-title">
+                Smart Game Strategy &<br>
+                <span class="gradient-text">Decision-Making System</span>
+            </h1>
+            <p class="hero-subtitle">
+                Powered by <strong>A*</strong> and <strong>AO*</strong> Search Algorithms —
+                Intelligent pathfinding, optimal game strategies, and visual AI decision trees.
+            </p>
+            <div class="hero-cta">
+                <a href="/astar" class="btn btn-primary" id="hero-astar-btn">
+                    <span class="btn-icon">⬡</span> Explore A* Algorithm
+                </a>
+                <a href="/game" class="btn btn-outline" id="hero-game-btn">
+                    <span class="btn-icon">♟</span> Play AI Game
+                </a>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value" data-target="2">0</span>
+                    <span class="stat-label">AI Algorithms</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="5">0</span>
+                    <span class="stat-label">Modules</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="100">0</span>
+                    <span class="stat-label">% Interactive</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="0" data-suffix="ms">0</span>
+                    <span class="stat-label">Avg. Compute</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Algorithm Preview -->
+        <div class="hero-visual">
+            <div class="algo-preview" id="algo-preview">
+                <div class="preview-header">
+                    <span class="preview-dot red"></span>
+                    <span class="preview-dot yellow"></span>
+                    <span class="preview-dot green"></span>
+                    <span class="preview-title">A* Algorithm</span>
+                </div>
+                <div class="preview-code" id="preview-code">
+                    <div class="code-line"><span class="code-kw">def</span> <span class="code-fn">a_star</span>(grid, start, goal):</div>
+                    <div class="code-line">  f(n) = g(n) + h(n)</div>
+                    <div class="code-line">  <span class="code-kw">while</span> open_set:</div>
+                    <div class="code-line">    current = <span class="code-fn">min</span>(f_score)</div>
+                    <div class="code-line code-highlight">    <span class="code-kw">if</span> current == goal:</div>
+                    <div class="code-line">      <span class="code-kw">return</span> reconstruct_path()</div>
+                </div>
+                <div class="preview-metrics">
+                    <div class="metric"><span class="metric-label">g(n)</span><span class="metric-val">Cost from Start</span></div>
+                    <div class="metric"><span class="metric-label">h(n)</span><span class="metric-val">Manhattan Distance</span></div>
+                    <div class="metric"><span class="metric-label">f(n)</span><span class="metric-val">Total Estimate</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module Cards -->
+    <section class="modules-section" id="modules-section">
+        <div class="section-header">
+            <span class="section-badge">PROJECT MODULES</span>
+            <h2>Explore All Components</h2>
+            <p>Five integrated modules demonstrating AI pathfinding and decision-making</p>
+        </div>
+
+        <div class="cards-grid">
+            <a href="/astar" class="module-card" id="card-astar">
+                <div class="card-glow glow-blue"></div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">★</div>
+                <h3 class="card-title">A* Search Algorithm</h3>
+                <p class="card-desc">Interactive grid pathfinding with Manhattan/Euclidean heuristics. Visualize f(n)=g(n)+h(n) in real-time on a customizable maze.</p>
+                <div class="card-tags">
+                    <span class="tag">Pathfinding</span>
+                    <span class="tag">Heuristic</span>
+                    <span class="tag">Grid Maze</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="/aostar" class="module-card" id="card-aostar">
+                <div class="card-glow glow-purple"></div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);">◈</div>
+                <h3 class="card-title">AO* Search Algorithm</h3>
+                <p class="card-desc">AND-OR graph visualization with heuristic cost propagation. Solve complex decomposable problems with optimal sub-goals.</p>
+                <div class="card-tags">
+                    <span class="tag">AND-OR Graph</span>
+                    <span class="tag">Cost Propagation</span>
+                    <span class="tag">Decomposition</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="/game" class="module-card" id="card-game">
+                <div class="card-glow glow-cyan"></div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #06b6d4, #10b981);">♟</div>
+                <h3 class="card-title">Interactive Game Arena</h3>
+                <p class="card-desc">Play Tic-Tac-Toe against an unbeatable AI powered by Minimax + Alpha-Beta Pruning. Choose Easy, Medium or Hard difficulty.</p>
+                <div class="card-tags">
+                    <span class="tag">Minimax</span>
+                    <span class="tag">Alpha-Beta</span>
+                    <span class="tag">Human vs AI</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="/comparison" class="module-card" id="card-compare">
+                <div class="card-glow glow-green"></div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #84cc16);">⇄</div>
+                <h3 class="card-title">Algorithm Comparison</h3>
+                <p class="card-desc">Side-by-side analysis of A* vs AO* — working principles, heuristic functions, time complexity, applications, and key differences.</p>
+                <div class="card-tags">
+                    <span class="tag">Complexity Analysis</span>
+                    <span class="tag">Use Cases</span>
+                    <span class="tag">Differences</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="/documentation" class="module-card card-wide" id="card-docs">
+                <div class="card-glow glow-orange"></div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📋</div>
+                <h3 class="card-title">Project Documentation</h3>
+                <p class="card-desc">Full academic documentation including Abstract, Introduction, Problem Statement, Methodology, Algorithms, Applications, Advantages, Future Scope, and Conclusion.</p>
+                <div class="card-tags">
+                    <span class="tag">Abstract</span>
+                    <span class="tag">Methodology</span>
+                    <span class="tag">Conclusion</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Algorithm Preview Section -->
+    <section class="preview-section" id="preview-section">
+        <div class="section-header">
+            <span class="section-badge">TECHNICAL OVERVIEW</span>
+            <h2>How the Algorithms Work</h2>
+        </div>
+        <div class="algo-cards">
+            <div class="algo-info-card" id="astar-info">
+                <div class="algo-header">
+                    <div class="algo-badge blue">A*</div>
+                    <div>
+                        <h3>A* Search Algorithm</h3>
+                        <p>Best-First Search with Admissible Heuristic</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <span class="formula">f(n) = g(n) + h(n)</span>
+                    <div class="formula-parts">
+                        <span><strong>g(n)</strong> — Actual cost from start</span>
+                        <span><strong>h(n)</strong> — Heuristic estimate to goal</span>
+                        <span><strong>f(n)</strong> — Total path cost estimate</span>
+                    </div>
+                </div>
+                <ul class="algo-features">
+                    <li>✓ Complete: Always finds a solution if one exists</li>
+                    <li>✓ Optimal: Finds the least-cost path</li>
+                    <li>✓ Uses Manhattan/Euclidean distance heuristic</li>
+                    <li>✓ Priority queue (min-heap) for efficiency</li>
+                </ul>
+            </div>
+
+            <div class="algo-info-card" id="aostar-info">
+                <div class="algo-header">
+                    <div class="algo-badge purple">AO*</div>
+                    <div>
+                        <h3>AO* Search Algorithm</h3>
+                        <p>Heuristic Search on AND-OR Graphs</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <span class="formula">Cost propagation in AND-OR tree</span>
+                    <div class="formula-parts">
+                        <span><strong>OR node</strong> — min cost among children</span>
+                        <span><strong>AND node</strong> — sum of all children costs</span>
+                        <span><strong>h(n)</strong> — Heuristic at each subgoal</span>
+                    </div>
+                </div>
+                <ul class="algo-features">
+                    <li>✓ Solves decomposable problems</li>
+                    <li>✓ Handles AND-OR graph structures</li>
+                    <li>✓ Optimal solution graph extraction</li>
+                    <li>✓ Bottom-up cost propagation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="brand-icon">⬡</div>
+                <span>SmartGame<span class="brand-accent">AI</span></span>
+            </div>
+            <p class="footer-text">B.Tech CSE — Artificial Intelligence Project</p>
+            <p class="footer-text">Smart Game Strategy and Decision-Making System using A* and AO* Algorithms</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

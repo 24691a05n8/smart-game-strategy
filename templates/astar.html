@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A* Search Algorithm | SmartGame AI</title>
+    <meta name="description" content="Interactive A* pathfinding algorithm visualization with grid maze, obstacles, and real-time path exploration.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div><div class="particle" id="p2"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link active" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <main class="page-main">
+        <div class="page-header">
+            <div class="page-badge blue">A* ALGORITHM</div>
+            <h1 class="page-title">A* <span class="gradient-text">Pathfinding</span> Algorithm</h1>
+            <p class="page-subtitle">Interactive grid visualization. Set start/end, place obstacles, and watch A* find the shortest path using <code>f(n) = g(n) + h(n)</code></p>
+        </div>
+
+        <div class="astar-layout">
+            <!-- Controls Panel -->
+            <div class="controls-panel glass-card" id="astar-controls">
+                <h3 class="panel-title">⚙ Controls</h3>
+
+                <div class="control-group">
+                    <label class="control-label">Mode</label>
+                    <div class="btn-group" id="mode-group">
+                        <button class="btn-mode active" id="mode-start" onclick="setMode('start')">🟢 Start</button>
+                        <button class="btn-mode" id="mode-end" onclick="setMode('end')">🔴 End</button>
+                        <button class="btn-mode" id="mode-wall" onclick="setMode('wall')">⬛ Wall</button>
+                        <button class="btn-mode" id="mode-erase" onclick="setMode('erase')">🧹 Erase</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Heuristic</label>
+                    <select class="control-select" id="heuristic-select">
+                        <option value="manhattan">Manhattan Distance</option>
+                        <option value="euclidean">Euclidean Distance</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Grid Size</label>
+                    <select class="control-select" id="grid-size-select">
+                        <option value="10">10 × 10 (Small)</option>
+                        <option value="15" selected>15 × 20 (Medium)</option>
+                        <option value="20">20 × 25 (Large)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Animation Speed</label>
+                    <input type="range" class="control-slider" id="speed-slider" min="10" max="200" value="50">
+                    <span class="slider-value" id="speed-value">50ms</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="run-astar-btn" onclick="runAstar()">▶ Run A*</button>
+                    <button class="btn btn-outline" id="random-maze-btn" onclick="generateRandomMaze()">🎲 Random Maze</button>
+                    <button class="btn btn-danger" id="reset-grid-btn" onclick="resetGrid()">↺ Reset</button>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend" id="astar-legend">
+                    <h4 class="legend-title">Legend</h4>
+                    <div class="legend-item"><span class="legend-color" style="background:#10b981"></span> Start Node</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ef4444"></span> Goal Node</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#1e293b"></span> Wall/Obstacle</div>
+                    <div class="legend-item"><span class="legend-color" style="background:rgba(96,165,250,0.4)"></span> Explored Node</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#facc15"></span> Optimal Path</div>
+                </div>
+            </div>
+
+            <!-- Grid Area -->
+            <div class="grid-area">
+                <div class="grid-container glass-card" id="grid-container">
+                    <div id="astar-grid" class="astar-grid"></div>
+                </div>
+
+                <!-- Results -->
+                <div class="results-bar glass-card" id="astar-results">
+                    <div class="result-item">
+                        <span class="result-icon">⏱</span>
+                        <span class="result-label">Time</span>
+                        <span class="result-value" id="exec-time">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-icon">📏</span>
+                        <span class="result-label">Path Cost</span>
+                        <span class="result-value" id="path-cost">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-icon">🔍</span>
+                        <span class="result-label">Nodes Explored</span>
+                        <span class="result-value" id="nodes-explored">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-icon">🗺</span>
+                        <span class="result-label">Path Length</span>
+                        <span class="result-value" id="path-length">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Details -->
+            <div class="steps-panel glass-card" id="steps-panel">
+                <h3 class="panel-title">📊 Algorithm Steps</h3>
+                <div class="formula-display">
+                    <div class="formula-row"><span class="fkey">f(n)</span> = <span class="fval" id="fn-val">—</span></div>
+                    <div class="formula-row"><span class="fkey">g(n)</span> = <span class="fval" id="gn-val">—</span></div>
+                    <div class="formula-row"><span class="fkey">h(n)</span> = <span class="fval" id="hn-val">—</span></div>
+                </div>
+                <div class="steps-list" id="steps-list">
+                    <p class="steps-placeholder">Run A* to see step-by-step exploration...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/astar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Comparison | SmartGame AI</title>
+    <meta name="description" content="Detailed comparison between A* and AO* algorithms - working principles, heuristics, applications and differences.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="particle" id="p1"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <div class="brand-icon">⬡</div>
+            <span class="brand-text">SmartGame<span class="brand-accent">AI</span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/" class="nav-link" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/astar" class="nav-link" id="nav-astar">A* Search</a></li>
+            <li><a href="/aostar" class="nav-link" id="nav-aostar">AO* Search</a></li>
+            <li><a href="/game" class="nav-link" id="nav-game">Game Arena</a></li>
+            <li><a href="/comparison" class="nav-link active" id="nav-compare">Comparison</a></li>
+            <li><a href="/documentation" class="nav-link" id="nav-docs">Docs</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <main class="page-main">
+        <div class="page-header">
+            <div class="page-badge green">COMPARISON</div>
+            <h1 class="page-title">Algorithm <span class="gradient-text">Comparison</span></h1>
+            <p class="page-subtitle">A comprehensive side-by-side analysis of A* and AO* algorithms — their working principles, heuristics, complexity, and real-world applications.</p>
+        </div>
+
+        <!-- Main Comparison Table -->
+        <section class="comparison-section" id="comparison-section">
+            <div class="glass-card" id="compare-table-card">
+                <h2 class="section-title">📊 Feature Comparison Table</h2>
+                <div class="table-wrapper">
+                    <table class="compare-table" id="compare-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th class="blue-header">A* Algorithm</th>
+                                <th class="purple-header">AO* Algorithm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="feature-name">Full Name</td>
+                                <td>A-Star Search Algorithm</td>
+                                <td>AO-Star Search Algorithm</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Graph Type</td>
+                                <td>State space graph / Grid</td>
+                                <td>AND-OR graph</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Evaluation Function</td>
+                                <td><code>f(n) = g(n) + h(n)</code></td>
+                                <td>Cost propagation in AND-OR tree</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">g(n) — Actual Cost</td>
+                                <td>Cost from start node to n</td>
+                                <td>Not directly used; uses heuristics</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">h(n) — Heuristic</td>
+                                <td>Manhattan / Euclidean distance</td>
+                                <td>Heuristic estimate at each node</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Search Strategy</td>
+                                <td>Best-First Search (greedy + optimal)</td>
+                                <td>Top-down with bottom-up cost update</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Problem Type</td>
+                                <td>Linear / Sequential problems</td>
+                                <td>Decomposable / Sub-goal problems</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Node Types</td>
+                                <td>Single node type (OR only)</td>
+                                <td>AND nodes and OR nodes</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">AND Nodes</td>
+                                <td>Not applicable</td>
+                                <td>All children must be solved</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">OR Nodes</td>
+                                <td>All nodes behave as OR</td>
+                                <td>Only one child needs to be solved</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Goal</td>
+                                <td>Find shortest path from start to goal</td>
+                                <td>Find optimal solution graph</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Completeness</td>
+                                <td>Complete (if h is admissible)</td>
+                                <td>Complete (if graph is finite)</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Optimality</td>
+                                <td>Optimal (with admissible h)</td>
+                                <td>Optimal (finds min cost solution graph)</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Time Complexity</td>
+                                <td>O(b^d) — exponential in worst case</td>
+                                <td>O(V + E) per iteration</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Space Complexity</td>
+                                <td>O(b^d) — stores all nodes in memory</td>
+                                <td>O(V + E) — stores AND-OR graph</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Data Structure</td>
+                                <td>Priority Queue (Min-Heap)</td>
+                                <td>AND-OR Graph + Cost Table</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Backtracking</td>
+                                <td>No explicit backtracking</td>
+                                <td>Bottom-up cost propagation</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Heuristic Admissibility</td>
+                                <td>Must never overestimate (h ≤ h*)</td>
+                                <td>Should be consistent / admissible</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Applications</td>
+                                <td>GPS navigation, robotics, game maps</td>
+                                <td>Game trees, theorem proving, planning</td>
+                            </tr>
+                            <tr class="alt-row">
+                                <td class="feature-name">Game Application</td>
+                                <td>Pathfinding through game levels</td>
+                                <td>Strategic decision trees</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Invented By</td>
+                                <td>Hart, Nilsson & Raphael (1968)</td>
+                                <td>Nilsson (1980)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Cards -->
+        <section class="visual-compare" id="visual-compare">
+            <div class="vc-card glass-card blue-border" id="astar-vc">
+                <div class="vc-header">
+                    <div class="algo-badge blue" style="font-size:1.5rem;padding:0.5rem 1rem">A*</div>
+                    <h3>A* Algorithm</h3>
+                </div>
+                <div class="vc-formula">f(n) = g(n) + h(n)</div>
+                <div class="vc-pros">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        <li>Guaranteed optimal path</li>
+                        <li>Efficient with good heuristic</li>
+                        <li>Widely used in game development</li>
+                        <li>Easy to implement on grids</li>
+                        <li>Works in any metric space</li>
+                    </ul>
+                </div>
+                <div class="vc-cons">
+                    <h4>❌ Limitations</h4>
+                    <ul>
+                        <li>Memory intensive for large grids</li>
+                        <li>Heuristic must be admissible</li>
+                        <li>Not suitable for AND-OR problems</li>
+                        <li>Performance degrades without heuristic</li>
+                    </ul>
+                </div>
+                <div class="vc-apps">
+                    <h4>🌍 Real-World Applications</h4>
+                    <div class="app-tags">
+                        <span class="tag">GPS Navigation</span>
+                        <span class="tag">Robot Pathfinding</span>
+                        <span class="tag">Game Level Maps</span>
+                        <span class="tag">Network Routing</span>
+                        <span class="tag">Logistics</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vs-divider">VS</div>
+
+            <div class="vc-card glass-card purple-border" id="aostar-vc">
+                <div class="vc-header">
+                    <div class="algo-badge purple" style="font-size:1.5rem;padding:0.5rem 1rem">AO*</div>
+                    <h3>AO* Algorithm</h3>
+                </div>
+                <div class="vc-formula">Cost(AND) = Σ children | Cost(OR) = min</div>
+                <div class="vc-pros">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        <li>Handles decomposable problems</li>
+                        <li>AND-OR graph flexibility</li>
+                        <li>Natural for hierarchical planning</li>
+                        <li>Models real-world decision trees</li>
+                        <li>Optimal solution graph extraction</li>
+                    </ul>
+                </div>
+                <div class="vc-cons">
+                    <h4>❌ Limitations</h4>
+                    <ul>
+                        <li>Complex graph construction</li>
+                        <li>Not for simple path problems</li>
+                        <li>Requires domain knowledge</li>
+                        <li>Harder to implement correctly</li>
+                    </ul>
+                </div>
+                <div class="vc-apps">
+                    <h4>🌍 Real-World Applications</h4>
+                    <div class="app-tags">
+                        <span class="tag">Game Tree Search</span>
+                        <span class="tag">Medical Diagnosis</span>
+                        <span class="tag">Theorem Proving</span>
+                        <span class="tag">Robot Assembly</span>
+                        <span class="tag">Planning Systems</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complexity Chart -->
+        <section class="complexity-section glass-card" id="complexity-section">
+            <h2 class="section-title">⚡ Performance Analysis</h2>
+            <div class="complexity-grid">
+                <div class="complexity-card" id="cc1">
+                    <div class="cc-label">Time Complexity (A*)</div>
+                    <div class="cc-val blue">O(b<sup>d</sup>)</div>
+                    <div class="cc-desc">b = branching factor, d = depth. Worst case is exponential but typical performance is much better with a good heuristic.</div>
+                </div>
+                <div class="complexity-card" id="cc2">
+                    <div class="cc-label">Time Complexity (AO*)</div>
+                    <div class="cc-val purple">O(V + E)</div>
+                    <div class="cc-desc">V = vertices, E = edges in AND-OR graph. Linear in graph size per iteration of the algorithm.</div>
+                </div>
+                <div class="complexity-card" id="cc3">
+                    <div class="cc-label">Space Complexity (A*)</div>
+                    <div class="cc-val blue">O(b<sup>d</sup>)</div>
+                    <div class="cc-desc">Stores all generated nodes in memory. This is the main limitation of A* for very large search spaces.</div>
+                </div>
+                <div class="complexity-card" id="cc4">
+                    <div class="cc-label">Space Complexity (AO*)</div>
+                    <div class="cc-val purple">O(V + E)</div>
+                    <div class="cc-desc">Only stores the AND-OR graph structure. More memory efficient for hierarchical problems.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
